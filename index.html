@@ -271,7 +271,7 @@ body {
             } else {
               cart[id].quantity += 1;
             }
-
+		 saveCartToLocalStorage();
             updateCartUI();
             showPopup();
           });
@@ -320,6 +320,7 @@ body {
           button.addEventListener('click', () => {
             const id = button.dataset.id;
             cart[id].quantity += 1;
+		 saveCartToLocalStorage();
             updateCartUI();
           });
         });
@@ -332,7 +333,7 @@ body {
             if (cart[id].quantity < 1) {
               delete cart[id];
             }
-
+		 saveCartToLocalStorage();
             updateCartUI();
           });
         });
@@ -345,7 +346,21 @@ body {
         }, 2000);
       }
 
-      loadProducts(products);
+	function saveCartToLocalStorage() {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }
+
+  // Load cart data from local storage on page load
+  function loadCartFromLocalStorage() {
+    const savedCart = JSON.parse(localStorage.getItem('cart'));
+    if (savedCart) {
+      Object.assign(cart, savedCart);
+    }
+  }
+
+  loadCartFromLocalStorage();
+  loadProducts(products);
+  updateCartUI();
     });
 
 </script>
